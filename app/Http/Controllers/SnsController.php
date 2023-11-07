@@ -1,6 +1,7 @@
 <?php
 namespace App\Http\Controllers;
 
+use Illuminate\Http\Client\Request;
 use Illuminate\Routing\Controller as BaseController;
 use Aws\Sns\SnsClient;
 use Aws\Exception\AwsException;
@@ -35,10 +36,13 @@ class SnsController extends BaseController
         return view('sns', ['result' => $result]);
     }
 
-    function subscribe(){
-
-        $protocol = 'https';
-        $endpoint = url()->current();
+    function subscribe(Request $request){
+        $result = [];
+        $protocol = $request->get('protocol', 'email');
+        $endpoint = $request->get('endpoint');
+        if(empty($endpoint)){
+            abort(405);
+        }
 
         try {
             $result = $this->SnsClient->subscribe([
@@ -51,7 +55,7 @@ class SnsController extends BaseController
             // output error message if fails
             error_log($e->getMessage());
         }
-        dd($result);
+        return json_encode($result);
     }
 
     function confirm(){
