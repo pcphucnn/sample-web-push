@@ -1,7 +1,7 @@
 <?php
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Client\Request;
+use Illuminate\Http\Request;
 use Illuminate\Routing\Controller as BaseController;
 use Aws\Sns\SnsClient;
 use Aws\Exception\AwsException;
@@ -38,8 +38,8 @@ class SnsController extends BaseController
 
     function subscribe(Request $request){
         $result = [];
-        $protocol = $request->get('protocol', 'email');
-        $endpoint = $request->get('endpoint');
+        $protocol = $request->query('protocol', 'email');
+        $endpoint = $request->query('endpoint');
         if(empty($endpoint)){
             abort(405);
         }
