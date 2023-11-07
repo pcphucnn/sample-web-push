@@ -10,36 +10,48 @@ use Illuminate\Support\Facades\Log;
 
 class SnsController extends BaseController
 {
+    protected  $SnsClient;
+    protected  $topic;
 
-    function index(){
-        return view('sns');
-    }
-
-    function subscribe(){
-        $SnSclient = new SnsClient([
+    public function __construct()
+    {
+        $this->SnsClient = new SnsClient([
             'region' => 'ap-northeast-1',
             'version' => '2010-03-31'
         ]);
+        $this->topic = 'arn:aws:sns:ap-northeast-1:779541610094:sample-push';
+    }
 
-        $protocol = 'https';
-        $endpoint = url()->current();
-        $topic = 'arn:aws:sns:ap-northeast-1:779541610094:sample-push';
-
-        echo 'start subscribe<br/>';
+    function index(){
+        $result = [];
         try {
-            $result = $SnSclient->subscribe([
-                'Protocol' => $protocol,
-                'Endpoint' => $endpoint,
-                'ReturnSubscriptionArn' => true,
-                'TopicArn' => $topic,
+            $result = $this->SnsClient->listSubscriptionsByTopic([
+                'TopicArn' => $this->topic, // REQUIRED
             ]);
-            Log::info($result);
         } catch (AwsException $e) {
             // output error message if fails
             error_log($e->getMessage());
         }
-        echo '<br/>end subscribe';
-        dd();
+        return view('sns', ['result' => $result]);
+    }
+
+    function subscribe(){
+
+        $protocol = 'https';
+        $endpoint = url()->current();
+
+        try {
+            $result = $this->SnsClient->subscribe([
+                'Protocol' => $protocol,
+                'Endpoint' => $endpoint,
+                'ReturnSubscriptionArn' => true,
+                'TopicArn' => $this->topic,
+            ]);
+        } catch (AwsException $e) {
+            // output error message if fails
+            error_log($e->getMessage());
+        }
+        dd($result);
     }
 
     function confirm(){
