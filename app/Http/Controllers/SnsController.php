@@ -36,6 +36,10 @@ class SnsController extends BaseController
         return view('sns', ['result' => $result]);
     }
 
+    /**
+     * @param Request $request
+     * @return false|string
+     */
     function subscribe(Request $request){
         $result = [];
         $protocol = $request->query('protocol', 'email');
@@ -56,6 +60,30 @@ class SnsController extends BaseController
             error_log($e->getMessage());
         }
         return json_encode($result);
+    }
+
+    /**
+     * @param Request $request
+     * @return false|string
+     */
+    function publish(Request $request){
+        $result = [];
+        $message = $request->get('message' );
+        if(empty($message)){
+            abort(405);
+        }
+
+        try {
+            $result = $this->SnsClient->publish([
+                'Message' => $message,
+                'MessageStructure' => 'json',
+                'TopicArn' => $this->topic,
+            ]);
+        } catch (AwsException $e) {
+            // output error message if fails
+            error_log($e->getMessage());
+        }
+        return json_encode(['MessageId' => $result['MessageId'] ?? '']);
     }
 
     function confirm(){
