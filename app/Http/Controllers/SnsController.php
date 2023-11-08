@@ -70,6 +70,7 @@ class SnsController extends BaseController
         $result = [];
         $subject = $request->get('subject' );
         $message = $request->get('message' );
+        $topic = $request->get('topic' );
         if(empty($message)){
             abort(405);
         }
@@ -78,7 +79,7 @@ class SnsController extends BaseController
             $result = $this->SnsClient->publish([
                 'Subject' => $subject,
                 'Message' => $message,
-                'TopicArn' => $this->topic,
+                'TopicArn' => $topic ?: $this->topic,
             ]);
         } catch (AwsException $e) {
             // output error message if fails
