@@ -68,6 +68,7 @@ class SnsController extends BaseController
      */
     function publish(Request $request){
         $result = [];
+        $subject = $request->get('subject' );
         $message = $request->get('message' );
         if(empty($message)){
             abort(405);
@@ -75,8 +76,8 @@ class SnsController extends BaseController
 
         try {
             $result = $this->SnsClient->publish([
+                'Subject' => $subject,
                 'Message' => $message,
-                'MessageStructure' => 'json',
                 'TopicArn' => $this->topic,
             ]);
         } catch (AwsException $e) {
