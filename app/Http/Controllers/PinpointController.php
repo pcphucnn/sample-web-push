@@ -29,7 +29,6 @@ class PinpointController extends BaseController
             $result = $this->pinpointClient->getApp([
                 'ApplicationId' => 'd15c9c0db73b4832826bdb4e762b464f', // REQUIRED
             ]);
-            dd($result);
         } catch (AwsException $e) {
             // output error message if fails
             error_log($e->getMessage());
