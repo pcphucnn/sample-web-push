@@ -19,3 +19,6 @@ Route::get('/subscribe', 'App\Http\Controllers\SnsController@subscribe');
 Route::post('/subscribe', 'App\Http\Controllers\SnsController@confirm');
 
 Route::post('/publish', 'App\Http\Controllers\SnsController@publish');
+
+
+Route::get('/pinpoint', 'App\Http\Controllers\PinpointController@pinpoint');
