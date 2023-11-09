@@ -19,7 +19,7 @@ class PinpointController extends BaseController
     {
         $this->pinpointClient = new PinpointClient([
             'region' => 'ap-northeast-1',
-            'version' => '2010-03-31'
+            'version'  => 'latest',
         ]);
     }
 
