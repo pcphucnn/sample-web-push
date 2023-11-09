@@ -23,7 +23,7 @@ class PinpointController extends BaseController
         ]);
     }
 
-    function index(){
+    function pinpoint(){
         $result = [];
         try {
             $result = $this->pinpointClient->getApp([
