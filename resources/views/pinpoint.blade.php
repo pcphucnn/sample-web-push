@@ -30,19 +30,14 @@
                         </tr>
                         </thead>
                         <tbody>
-                        @if(!empty($result))
-                            @if(!empty($result['data']['ApplicationResponse']))
-                                @foreach($result['data']['ApplicationResponse'] as $i => $oneData)
-                                    <tr>
-                                        <th scope="row">{{ $i+1 }}</th>
-                                        <td>{{ $oneData['Name'] }}</td>
-                                        <td>{{ $oneData['Id'] }}</td>
-                                        <td>{{ $oneData['Arn'] }}</td>
-                                    </tr>
-                                @endforeach
-                            @endif
+                        @if(!empty($result['ApplicationResponse']))
+                            <tr>
+                                <th scope="row">1</th>
+                                <td>{{ $result['ApplicationResponse']['Name'] }}</td>
+                                <td>{{ $result['ApplicationResponse']['Id'] }}</td>
+                                <td>{{ $result['ApplicationResponse']['Arn'] }}</td>
+                            </tr>
                         @endif
-
                         </tbody>
                     </table>
 

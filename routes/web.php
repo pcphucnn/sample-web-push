@@ -14,6 +14,7 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', 'App\Http\Controllers\SnsController@index');
+Route::post('/', 'App\Http\Controllers\SnsController@confirm');
 
 Route::get('/subscribe', 'App\Http\Controllers\SnsController@subscribe');
 Route::post('/subscribe', 'App\Http\Controllers\SnsController@confirm');
@@ -22,3 +23,5 @@ Route::post('/publish', 'App\Http\Controllers\SnsController@publish');
 
 
 Route::get('/pinpoint', 'App\Http\Controllers\PinpointController@pinpoint');
+
+Route::get('/test', 'App\Http\Controllers\TestController@index');
